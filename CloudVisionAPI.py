@@ -53,14 +53,6 @@ def async_detect_document(gcs_source_uri, gcs_destination_uri):
     print(length)
     for i in range(length):
         response = data['responses'][i]
-        if 'fullTextAnnotation' not in response:
-            print(file_source + "No fullTextAnnotation at page:", i)
-            continue
-        fullTextAnnotation = data['responses'][i]['fullTextAnnotation']
-        if 'text' not in fullTextAnnotation:
-            print(file_source + "No text  at page:", i)
-            continue
-
         s = s + fullTextAnnotation['text']
         # print(s)
 
@@ -68,8 +60,6 @@ def async_detect_document(gcs_source_uri, gcs_destination_uri):
     f.write(s)
     print('just printed file' + file_source)
     f.close()
-
-    # data = json.loads(file_source)
 
 response = json_format.Parse(
         data, vision.types.AnnotateFileResponse())
@@ -89,18 +79,12 @@ response = json_format.Parse(
 # files = files + ['KV_4-187_1.pdf', 'KV_4-188_2.pdf', 'KV_4-189_1.pdf', 'KV_4-189_2-2.pdf', 'KV_4-190_1.pdf', 'KV_4-190_2.pdf']
 # files = files + ['KV_4-191_2.pdf', 'KV_4-192_1.pdf', 'KV_4-192_3.pdf', 'KV_4-193_1.pdf', 'KV_4-193_3.pdf', 'KV_4-194_1.pdf', 'KV_4-194_2.pdf']
 # files = files + ['KV_4-195_2.pdf', 'KV_4-195_3.pdf', 'KV_4-196_1.pdf', 'KV_4-196_2.pdf', 'KV_4-196_3.pdf']
-#
+
 source_bucket = 'gs://cambridgefive_pdfs/'
 destinations_bucket = 'gs://cambridgefive_pdfs/'
 i = 0
 while i < len(files):
-    # async_detect_document(files[i], destinations[i])
-    # async_detect_document(source_bucket + files[i], source_bucket + files[i] + '.txt ')
-    # print(files[i])
+#     async_detect_document(files[i], destinations[i])
+    async_detect_document(source_bucket + files[i], source_bucket + files[i] + '.txt ')
+    print(files[i])
     i+= 1
-
-# for filename in glob.glob('*.json'):
-#     # with open(os.path.join(os.getcwd(), filename), 'r') as f:
-#     extract_text(filename)
-
-# print(len(files))
