@@ -1,5 +1,6 @@
 import json
 import io, os
+import re
 import glob
 from bs4 import BeautifulSoup
 from google.cloud import vision
@@ -7,9 +8,6 @@ from google.protobuf import json_format
 
 
 def extract_text(file_source):
-    import os, io
-    import re
-
     with open(file_source, encoding="UTF-8") as f:
         data = json.load(f)
     if 'responses' not in data:
